@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { X, MapPin, Star, BellRing, ChevronRight, ChevronLeft, CheckCircle2 } from 'lucide-react'
 import clsx from 'clsx'
 import { useFocusTrap } from '../hooks/useFocusTrap'
@@ -27,7 +26,6 @@ const SLIDES = [
 export default function OnboardingTour() {
   const [open, setOpen] = useState(false)
   const [step, setStep] = useState(0)
-  const navigate = useNavigate()
   const dialogRef = useRef(null)
 
   // Show on first visit only
@@ -128,13 +126,16 @@ export default function OnboardingTour() {
               <ChevronRight className="w-4 h-4" />
             </button>
           ) : (
+            // Просто закрываем тур и оставляем пользователя на той странице,
+            // где он находится (после логина это /). Раньше тут был
+            // принудительный navigate('/map') — он уводил юзеров с главной.
             <button
-              onClick={() => { close(); navigate('/map') }}
+              onClick={close}
               className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-2xl text-sm font-semibold
                          bg-[#2F80FF] hover:bg-[#3a8bff] text-white shadow-md shadow-blue-500/30"
             >
               <CheckCircle2 className="w-4 h-4" strokeWidth={2.4} />
-              Открыть карту
+              Готово
             </button>
           )}
         </div>
