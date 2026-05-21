@@ -329,9 +329,12 @@ export default function SettingsPage() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      {/* ===== Top bar ===== */}
-      <header className="flex items-start justify-between gap-4 mb-6">
-        <div>
+      {/* ===== Top bar =====
+          На мобильном заголовок и кнопки стэкаются вертикально, иначе
+          две кнопки «Сбросить» + «Сохранить» отжимают заголовок в узкую
+          колонку и текст переносится в 3-4 строки. */}
+      <header className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+        <div className="min-w-0">
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white transition-colors duration-200">
             {tr('settings.title')}
           </h1>
@@ -339,30 +342,32 @@ export default function SettingsPage() {
             {tr('settings.subtitle')}
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        {/* Группа действий — на мобильном кнопки во всю ширину строки,
+            на десктопе сжимаются по контенту. */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap shrink-0">
           {savedFlash && (
-            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400 w-full sm:w-auto">
               <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
               {tr('settings.saved')}
             </span>
           )}
           <button
             onClick={handleReset}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 rounded-xl text-sm font-medium transition-colors
                        bg-white hover:bg-slate-50 text-slate-700 border border-slate-200
                        dark:bg-[#1A2746]/80 dark:hover:bg-[#22305A] dark:text-slate-200 dark:border-white/[0.06]"
           >
-            <RotateCcw className="w-4 h-4" strokeWidth={2.2} />
-            {tr('settings.reset')}
+            <RotateCcw className="w-4 h-4 shrink-0" strokeWidth={2.2} />
+            <span className="truncate">{tr('settings.reset')}</span>
           </button>
           <button
             onClick={handleSaveAll}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-3 sm:px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors
                        bg-[#2F80FF] hover:bg-[#3a8bff] text-white
                        shadow-md shadow-blue-500/30 dark:shadow-blue-900/40"
           >
-            <Save className="w-4 h-4" strokeWidth={2.2} />
-            {tr('settings.save')}
+            <Save className="w-4 h-4 shrink-0" strokeWidth={2.2} />
+            <span className="truncate">{tr('settings.save')}</span>
           </button>
         </div>
       </header>

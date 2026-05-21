@@ -4,9 +4,11 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
 import {
   X, User, Star, Bell, Lightbulb, Radio, HelpCircle, Settings,
   Home, Map as MapIcon, CloudSun, LogOut, BarChart3, ArrowRightLeft,
+  Sun, Moon,
 } from 'lucide-react'
 import clsx from 'clsx'
 import { useAuth } from '../auth/AuthContext'
+import { useTheme } from '../theme/ThemeContext'
 
 // Slide-in drawer that opens from the burger button in the mobile header.
 // Mirrors all routes the desktop header exposes via the dropdown menus.
@@ -37,6 +39,8 @@ const SECTIONS = [
 
 export default function MobileMenu({ open, onClose }) {
   const { isAuthenticated, logout } = useAuth()
+  const { theme, toggleTheme } = useTheme()
+  const isDark = theme === 'dark'
   const navigate = useNavigate()
   const location = useLocation()
   const drawerRef = useRef(null)
@@ -125,6 +129,41 @@ export default function MobileMenu({ open, onClose }) {
               </ul>
             </div>
           ))}
+
+          {/* Theme toggle — на десктопе он живёт в header'е, но в мобильной
+              шапке нет места, поэтому выносим сюда. Анимированный переключатель
+              в стиле iOS, чтобы юзер сразу видел текущее состояние. */}
+          <div className="px-5 pt-3 pb-1 border-t border-slate-200/70 dark:border-white/[0.06] mt-2">
+            <div className="text-[10px] uppercase tracking-widest font-bold text-slate-400 dark:text-slate-500 mb-2">
+              Оформление
+            </div>
+            <button
+              onClick={toggleTheme}
+              role="switch"
+              aria-checked={isDark}
+              aria-label={isDark ? 'Переключить на светлую тему' : 'Переключить на тёмную тему'}
+              className="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-2xl transition-colors
+                         bg-slate-50 hover:bg-slate-100
+                         dark:bg-white/[0.04] dark:hover:bg-white/[0.08]"
+            >
+              <span className="flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-200">
+                {isDark
+                  ? <Moon className="w-4 h-4 text-blue-400" strokeWidth={2.2} />
+                  : <Sun  className="w-4 h-4 text-amber-500" strokeWidth={2.2} />}
+                {isDark ? 'Тёмная тема' : 'Светлая тема'}
+              </span>
+              {/* iOS-style toggle */}
+              <span className={clsx(
+                'relative inline-flex h-6 w-11 shrink-0 rounded-full transition-colors duration-200',
+                isDark ? 'bg-[#2F80FF]' : 'bg-slate-300',
+              )}>
+                <span className={clsx(
+                  'pointer-events-none absolute top-0.5 left-0.5 inline-block h-5 w-5 rounded-full bg-white shadow-md transform transition-transform duration-200',
+                  isDark ? 'translate-x-5' : 'translate-x-0',
+                )} />
+              </span>
+            </button>
+          </div>
 
           {isAuthenticated && (
             <div className="px-5 pt-3 pb-6 border-t border-slate-200/70 dark:border-white/[0.06] mt-2">
