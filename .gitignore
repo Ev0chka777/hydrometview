@@ -1,0 +1,53 @@
+# ─── Dependencies ─────────────────────────────────────────────
+node_modules
+.pnp
+.pnp.js
+
+# ─── Build output ─────────────────────────────────────────────
+dist
+dist-ssr
+*.local
+build
+
+# ─── Vite ─────────────────────────────────────────────────────
+.vite
+.vite-cache
+
+# ─── Tests / coverage ─────────────────────────────────────────
+coverage
+.nyc_output
+
+# ─── Environment files ────────────────────────────────────────
+# IMPORTANT: .env contains the WeatherAPI key. It will be set
+# directly in Vercel's dashboard for the deployed build, so we
+# keep it out of git history (which can be crawled / leaked).
+# .env.example is committed as a template for new contributors.
+.env
+.env.local
+.env.*.local
+
+# ─── Editor / OS junk ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/*
+!.vscode/extensions.json
+.idea
+.history
+
+# ─── Logs ─────────────────────────────────────────────────────
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# ─── Misc ─────────────────────────────────────────────────────
+*.tsbuildinfo
+.eslintcache
+
+# ─── Tooling / temp ───────────────────────────────────────────
+.claude/
+dev-out.txt
+dev-err.txt

@@ -1,0 +1,306 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    @apply font-sans antialiased text-slate-900 transition-colors duration-200;
+    background-color: #EEF2F8;
+  }
+
+  html.dark body {
+    @apply text-slate-100;
+    background-color: #0A1428;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-100 dark:bg-dark-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-dark-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400 dark:bg-dark-500;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white dark:bg-dark-800 rounded-2xl border border-slate-200 dark:border-dark-700 shadow-md dark:shadow-card transition-colors duration-200;
+  }
+
+  .card-hover {
+    @apply hover:shadow-lg dark:hover:shadow-card-hover hover:border-slate-300 dark:hover:border-dark-600 transition-all duration-300;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-green {
+    @apply badge bg-success-500/20 text-success-600 dark:text-success-400;
+  }
+
+  .badge-yellow {
+    @apply badge bg-warning-500/20 text-warning-600 dark:text-warning-400;
+  }
+
+  .badge-red {
+    @apply badge bg-danger-500/20 text-danger-600 dark:text-danger-400;
+  }
+
+  .badge-blue {
+    @apply badge bg-primary-500/20 text-primary-600 dark:text-primary-400;
+  }
+
+  .badge-cyan {
+    @apply badge bg-hydro-500/20 text-hydro-600 dark:text-hydro-400;
+  }
+
+  .stat-value {
+    @apply text-3xl font-bold tracking-tight;
+  }
+
+  .stat-label {
+    @apply text-sm text-slate-500 dark:text-dark-400 font-medium;
+  }
+
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-dark-400 font-medium transition-all duration-200 cursor-pointer select-none;
+  }
+
+  .nav-item:hover {
+    @apply bg-slate-100 dark:bg-dark-700 text-slate-900 dark:text-dark-100;
+  }
+
+  .nav-item.active {
+    @apply bg-primary-50 dark:bg-primary-600/20 text-primary-600 dark:text-primary-400 border border-primary-200 dark:border-primary-500/30;
+  }
+
+  .section-title {
+    @apply text-lg font-semibold text-slate-900 dark:text-dark-100 transition-colors duration-200;
+  }
+
+  .section-subtitle {
+    @apply text-sm text-slate-500 dark:text-dark-400 transition-colors duration-200;
+  }
+
+  .divider {
+    @apply border-slate-200 dark:border-dark-700;
+  }
+
+  .input-field {
+    @apply bg-white dark:bg-dark-700 border border-slate-200 dark:border-dark-600 rounded-xl px-4 py-2.5 text-slate-900 dark:text-dark-100 placeholder-slate-400 dark:placeholder-dark-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all;
+  }
+
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-500 text-white font-medium px-4 py-2.5 rounded-xl transition-all duration-200 flex items-center gap-2;
+  }
+
+  .btn-secondary {
+    @apply bg-white dark:bg-dark-700 hover:bg-slate-50 dark:hover:bg-dark-600 text-slate-700 dark:text-dark-200 font-medium px-4 py-2.5 rounded-xl border border-slate-200 dark:border-dark-600 transition-all duration-200 flex items-center gap-2;
+  }
+
+  .table-header {
+    @apply text-xs font-semibold text-slate-500 dark:text-dark-400 uppercase tracking-wider;
+  }
+
+  .table-cell {
+    @apply text-sm text-slate-700 dark:text-dark-200 py-3;
+  }
+}
+
+/* Stop Leaflet zoom-button clicks from triggering browser scroll/jump. */
+.leaflet-control-zoom a {
+  touch-action: none;
+}
+
+/* Hide scrollbar for the hourly chart's horizontal scroller (and any
+   other "scrollable but visually clean" surfaces). Equivalent to the
+   commonly-used `.scrollbar-none` utility. */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Pulsating ring under critical hydropost markers ──────────────────────── */
+.pulsating-marker {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--pulse-color, #ef4444);
+  opacity: 0.75;
+  animation: pulse 1.6s ease-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes pulse {
+  0%   { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* ─── Accessibility: keyboard focus ───────────────────────────────────────── */
+/* Visible focus ring ONLY for keyboard navigation (not mouse clicks). */
+*:focus { outline: none; }
+*:focus-visible {
+  outline: 2px solid #2F80FF;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+html.dark *:focus-visible {
+  outline-color: #60A5FA;
+}
+
+/* ─── Accessibility: screen-reader-only utility ───────────────────────────── */
+/* Visually hidden but available to assistive tech. */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+/* Show the SR-only skip link when focused */
+.sr-only.focus\:not-sr-only:focus,
+.sr-only.focus\:not-sr-only:focus-visible {
+  position: fixed !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 12px 20px !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+  top: 12px !important;
+  left: 12px !important;
+  z-index: 99999 !important;
+  background: #2F80FF !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2) !important;
+}
+
+/* ─── Accessibility: SVG icons inside labelled controls don't capture clicks ── */
+/* Prevents the inner SVG from being the click target on a button — small
+   robustness improvement for nested click handlers. */
+button[aria-label] > svg,
+a[aria-label] > svg {
+  pointer-events: none;
+}
+
+/* ─── Accessibility: respect prefers-reduced-motion ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  /* Kill decorative loops (pulse rings, pings, spinners) */
+  .animate-ping,
+  .animate-pulse,
+  .animate-spin,
+  .pulsating-marker,
+  .user-location-marker {
+    animation: none !important;
+  }
+  /* Shorten functional transitions instead of killing them — preserves
+     orientation cues without burning CPU/battery. */
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Marker clusters — Tailwind-flavoured circular badges ────────────────── */
+.hmv-cluster-wrapper { background: transparent !important; border: 0 !important; }
+
+.hmv-cluster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: inherit;
+  background: rgba(47, 128, 255, 0.85);   /* brand blue, translucent */
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.25),
+              0 2px 6px rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: transform 0.15s ease;
+  cursor: pointer;
+}
+.hmv-cluster:hover { transform: scale(1.08); }
+
+html.dark .hmv-cluster {
+  background: rgba(59, 130, 246, 0.80);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+}
+
+/* ─── "Вы здесь" — pulsing dot for the user's current geolocation ─────────── */
+.user-location-divicon { background: transparent !important; border: 0 !important; }
+
+.user-location-marker {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2F80FF;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 0 rgba(47, 128, 255, 0.55),
+              0 4px 12px rgba(15, 23, 42, 0.35);
+  animation: user-location-pulse 2s ease-out infinite;
+}
+
+@keyframes user-location-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(47, 128, 255, 0.55), 0 4px 12px rgba(15, 23, 42, 0.35); }
+  100% { box-shadow: 0 0 0 18px rgba(47, 128, 255, 0),   0 4px 12px rgba(15, 23, 42, 0.35); }
+}
+
+@layer utilities {
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-primary-400 to-hydro-400 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-cyan {
+    @apply bg-gradient-to-r from-hydro-400 to-primary-300 bg-clip-text text-transparent;
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+  }
+
+  .glow-red {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.25);
+  }
+}
